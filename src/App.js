@@ -10,18 +10,23 @@ import About from './components/About'
 
 import './App.css'
 
+export const CATEGORIES = {
+  ANIME: "https://api.jikan.moe/v3",
+  GAME: "https://api.jikan.moe/v3",
+  MOVIE: "http://www.omdbapi.com/?apikey=dfe6d885"
+};
+
 function App() {
   const [state, setState] = useState({
     s: "",
     results: [],
-    selected: {}
+    selected: {},
+    selectedCategory: CATEGORIES.MOVIE,
   });
-
-  const apiurl = "http://www.omdbapi.com/?apikey=dfe6d885";
 
   const search = (e) => {
     if (e.key === "Enter") {
-      axios(apiurl + "&s=" + state.s).then(({ data }) => {
+      axios(state.selectedCategory + "&s=" + state.s).then(({ data }) => {
         let results = data.Search;
 
         setState(prevState => {
@@ -40,7 +45,7 @@ function App() {
   }
 
   const openPopup = id => {
-    axios(apiurl + "&i=" + id).then(({ data }) => {
+    axios(state.selectedCategory + "&i=" + id).then(({ data }) => {
       let result = data;
 
       console.log(result);
