@@ -24,6 +24,13 @@ function App() {
     selectedCategory: CATEGORIES.MOVIE,
   });
 
+  const handleChangeCategory = (category) => {
+    console.log("Changing selected category to: ", category);
+    setState(prevState => {
+      return { ...prevState, selectedCategory: category }
+    })
+  }
+
   const search = (e) => {
     if (e.key === "Enter") {
       axios(state.selectedCategory + "&s=" + state.s).then(({ data }) => {
@@ -67,7 +74,7 @@ function App() {
       <Header />
       <main>
         <Search handleInput={handleInput} search={search} />
-        <Category />
+        <Category onCategoryChanged={handleChangeCategory}/>
         <Results results={state.results} openPopup={openPopup} />
 
         {(typeof state.selected.Title != "undefined") ? <Popup selected={state.selected} closePopup={closePopup} /> : false}
